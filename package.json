@@ -1,0 +1,32 @@
+{
+  "name": "flowchart",
+  "version": "1.0.0",
+  "description": "This is an application that was designed to help the user create flowcharts",
+  "main": "./index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "npm run build && electron-forge start",
+    "package": "electron-forge package",
+    "make": "electron-forge make",
+    "build": "tsc"
+  },
+  "author": "Gavin Johnson",
+  "license": "ISC",
+  "devDependencies": {
+    "@electron-forge/cli": "^7.4.0",
+    "@electron-forge/maker-deb": "^7.4.0",
+    "@electron-forge/maker-rpm": "^7.4.0",
+    "@electron-forge/maker-squirrel": "^7.4.0",
+    "@electron-forge/maker-zip": "^7.4.0",
+    "@electron-forge/plugin-auto-unpack-natives": "^7.4.0",
+    "@electron-forge/plugin-fuses": "^7.4.0",
+    "@electron/fuses": "^1.8.0",
+    "electron": "31.1.0"
+  },
+  "dependencies": {
+    "@svgdotjs/svg.draggable.js": "^3.0.4",
+    "@svgdotjs/svg.js": "^3.2.4",
+    "electron-squirrel-startup": "^1.0.1",
+    "typescript": "^5.5.2"
+  }
+}
