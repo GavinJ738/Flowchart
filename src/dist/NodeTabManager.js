@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 const elementUnderCursor = document.elementFromPoint(event.clientX, event.clientY);
                 console.log(elementUnderCursor);
                 if (hasParentWithId(elementUnderCursor, "mainCanvas")) {
-                    addNode({
+                    canvasManager.AddNode({
                         x: event.pageX,
                         y: event.pageY
                     }, id);
