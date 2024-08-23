@@ -61,19 +61,29 @@ electronIpcMain.on("save-json", async (event, jsonData) => {
 })
 
 electronIpcMain.on('load-json', async (event, jsonData) => {
-    const { filePath } = await dialog.showOpenDialog({
+    dialog.showOpenDialog({
         title: "Load JSON File",
-        defaultPath: app.getPath('userData'),
+        defaultPath: app.getPath('userData') + "/Local Storage/Saves",
         filters: [
             { name: 'JSON Files', extensions: ['json'] }
-        ]
-    })
+        ],
+        properties: ['openFile']
+    }).then(filePathIn => {
+        filePaths = filePathIn.filePaths
+        if (filePaths && filePaths.length > 0) {
+            const filePath = filePaths[0]; // Get the first selected file
+            console.log(`Selected file: ${filePath}`);
 
-    fs.readFile(filePath, (err, data) => {
-        if (err) {
-            event.reply('load-json-reply', null);
+            fs.readFile(filePath, (err, data) => {
+                if (err) {
+                    event.reply('load-json-reply', null);
+                } else {
+                    event.reply('load-json-reply', JSON.parse(data));
+                }
+
+            })
         } else {
-            event.reply('load-json-reply', JSON.parse(data));
+            console.log('No file selected');
         }
 
     })

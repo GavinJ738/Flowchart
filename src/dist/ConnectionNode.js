@@ -62,6 +62,11 @@ class ConnectionNode {
             }
         };
     }
+    spawnConnectionLine() {
+        this.connectionLine = new ConnectionLine(this.parent.shape, this.side);
+        this.connectionLine.originConnectionNode = this;
+        ConnectionNode.activeConnectionNode = this;
+    }
     //Called when the connection node gets moved so it can update the position of its connected lines
     updatePositions() {
         this.towardConnectionLines.forEach(line => {

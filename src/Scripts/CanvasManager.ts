@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", function () {
 class CanvasManager {
     draw: any
     grid: any
+    rectNodes: RectNode[] = []
     constructor() {
         console.log("Test");
         this.draw = SVG().addTo('body').size('100%', '100%').id('mainCanvas');
@@ -107,6 +108,12 @@ class CanvasManager {
             add.rect(50, 50).fill('none').stroke({ color: 'gray', width: 0.5 });
         });
         this.grid = this.draw.rect("100%", "100%").fill(pattern).move(0, 0);
+
+        document.addEventListener('keydown', (e) => {
+            if (e.code == "KeyL") {
+                Saving.load(this);
+            }
+        })
     }
     //Adds a node to the canvas
     public AddNode(mousePos: Position, id: string) {
@@ -114,13 +121,27 @@ class CanvasManager {
 
         switch (id) {
             case "normRect":
-                new RectNode(pos.x - 50, pos.y - 50, { fill: '#fff', type: NodeType.Dialogue }, this.draw);
+                this.rectNodes.push(new RectNode(pos.x - 50, pos.y - 50, { fill: '#fff', type: NodeType.Dialogue }, this.draw));
                 break;
             case "redRect":
-                new RectNode(pos.x - 50, pos.y - 50, { fill: '#ed1a36', type: NodeType.Event }, this.draw);
+                this.rectNodes.push(new RectNode(pos.x - 50, pos.y - 50, { fill: '#ed1a36', type: NodeType.Event }, this.draw));
                 break;
             case "blueRect":
-                new RectNode(pos.x - 50, pos.y - 50, { fill: '#561aed', type: NodeType.Start }, this.draw);
+                this.rectNodes.push(new RectNode(pos.x - 50, pos.y - 50, { fill: '#561aed', type: NodeType.Start }, this.draw));
+                break;
+        }
+    }
+    public SpawnNode(pos: Position, type: NodeType) {
+
+        switch (type) {
+            case NodeType.Dialogue:
+                this.rectNodes.push(new RectNode(pos.x - 50, pos.y - 50, { fill: '#fff', type: NodeType.Dialogue }, this.draw));
+                break;
+            case NodeType.Event:
+                this.rectNodes.push(new RectNode(pos.x - 50, pos.y - 50, { fill: '#ed1a36', type: NodeType.Event }, this.draw));
+                break;
+            case NodeType.Start:
+                this.rectNodes.push(new RectNode(pos.x - 50, pos.y - 50, { fill: '#561aed', type: NodeType.Start }, this.draw));
                 break;
         }
     }

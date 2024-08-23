@@ -1,8 +1,8 @@
 enum Direction {
     Up,
+    Right,
     Down,
-    Left,
-    Right
+    Left
 }
 //A line connection two connection nodes
 class ConnectionLine {

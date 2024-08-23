@@ -72,7 +72,7 @@ class RectNode {
         if (rectParams.type == NodeType.Start) {
             rect.click(() => {
                 console.log("Clicked");
-                this.getNodeTree();
+                Saving.save(this)
             });
         }
 
@@ -80,81 +80,6 @@ class RectNode {
 
 
 
-
-    }
-    getNodeTree() {
-        var visitedNodeIDs: number[] = []
-        var queue: RectNode[] = [this]
-
-        var allJsonNodeData = []
-        while (queue.length != 0) {
-            var currNode = queue.shift()
-            if (currNode == null) {
-                //console.log("null")
-                continue;
-            }
-            if (visitedNodeIDs.includes(currNode.id)) {
-                //console.log("loop back");
-                continue;
-            }
-            visitedNodeIDs.push(currNode.id);
-
-            //Data saving
-            var pos = { x: currNode.shape.x(), y: currNode.shape.y() };
-            var type: NodeType = currNode.type;
-            var topText: String = currNode.shape.find(".topText")[0].node.value;
-            var bottomText: String = currNode.shape.find(".bottomText")[0].node.value;
-            var outgoingConnections: ConnectionLineSaveData[] = [];
-
-
-
-            console.log(topText);
-            //Add to json
-            console.log(`ID: ${currNode.id}`);
-
-            currNode.connectionNodes.forEach(connectionNode => {
-                //console.log(connectionNode)
-                connectionNode.originConnectionLines.forEach(connectionLine => {
-
-                    //console.log(connectionLine)
-                    if (connectionLine.toConnectionNode?.parent != undefined) {
-                        queue.push(connectionLine.toConnectionNode?.parent);
-                        outgoingConnections.push({
-                            originConnectionNode: connectionNode.side,
-                            destinationConnectionNode: connectionLine.toConnectionNode.side,
-                            destinationNodeID: connectionLine.toConnectionNode.parent.id,
-                        })
-                        //console.log(`Added: ${connectionLine.toConnectionNode?.parent.id}`);
-                    } else {
-                        //console.log("Undefined");
-                    }
-                });
-            });
-
-
-            var json = {
-                "position": pos,
-                "type": type,
-                "topText": topText,
-                "bottomText": bottomText,
-                "outgoingConnections": outgoingConnections
-            }
-            allJsonNodeData.push(json);
-        }
-
-        //All done looping though all nodes
-        var jsonData = {
-            "nodeData": allJsonNodeData
-        }
-        console.log(JSON.stringify(jsonData, null, 2));
-        window.electronAPI.saveJson(jsonData);
-        window.electronAPI.onSaveJsonReply((status) => {
-            if (status === 'success') {
-                console.log('JSON file saved successfully!');
-            } else {
-                console.error('Failed to save JSON file.');
-            }
-        });
 
     }
 
@@ -259,6 +184,11 @@ class RectNode {
 
 
         this.disablePointerEvents();
+    }
+
+    public setText(topText: string, bottomText: string) {
+        this.shape.find(".topText")[0].node.value = topText;
+        this.shape.find(".bottomText")[0].node.value = bottomText;
     }
 
     public getScaleFactor(svg: any) {
