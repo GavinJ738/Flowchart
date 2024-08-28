@@ -1,0 +1,173 @@
+{
+  "nodeData": [
+    {
+      "id": 0,
+      "position": {
+        "x": 245.73170731707296,
+        "y": 255.89430894308967
+      },
+      "type": 2,
+      "topText": "Start",
+      "bottomText": "",
+      "outgoingConnections": [
+        {
+          "originConnectionNode": 1,
+          "destinationConnectionNode": 3,
+          "destinationNodeID": 1
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "position": {
+        "x": 414.4308943089431,
+        "y": 251.82926829268317
+      },
+      "type": 0,
+      "topText": "Abbi",
+      "bottomText": "Hey Jeff!",
+      "outgoingConnections": [
+        {
+          "originConnectionNode": 1,
+          "destinationConnectionNode": 3,
+          "destinationNodeID": 2
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "position": {
+        "x": 592.2764227642275,
+        "y": 242.6829268292684
+      },
+      "type": 0,
+      "topText": "Jeff",
+      "bottomText": "Howdy, Abbi! Did you want an apple?",
+      "outgoingConnections": [
+        {
+          "originConnectionNode": 1,
+          "destinationConnectionNode": 3,
+          "destinationNodeID": 3
+        },
+        {
+          "originConnectionNode": 1,
+          "destinationConnectionNode": 3,
+          "destinationNodeID": 4
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "position": {
+        "x": 772.1544715447155,
+        "y": 132.9268292682927
+      },
+      "type": 0,
+      "topText": "Abbi",
+      "bottomText": "Yes, please!",
+      "outgoingConnections": [
+        {
+          "originConnectionNode": 1,
+          "destinationConnectionNode": 3,
+          "destinationNodeID": 5
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "position": {
+        "x": 773.1707317073173,
+        "y": 302.6422764227643
+      },
+      "type": 0,
+      "topText": "Abbi",
+      "bottomText": "No thanks.",
+      "outgoingConnections": [
+        {
+          "originConnectionNode": 1,
+          "destinationConnectionNode": 3,
+          "destinationNodeID": 6
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "position": {
+        "x": 970.9349593495941,
+        "y": 128.41463414634154
+      },
+      "type": 0,
+      "topText": "Jeff",
+      "bottomText": "Cool here you go.",
+      "outgoingConnections": [
+        {
+          "originConnectionNode": 1,
+          "destinationConnectionNode": 3,
+          "destinationNodeID": 8
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "position": {
+        "x": 1065.4471544715445,
+        "y": 303.2113821138212
+      },
+      "type": 0,
+      "topText": "Jeff",
+      "bottomText": "That's too bad.",
+      "outgoingConnections": [
+        {
+          "originConnectionNode": 1,
+          "destinationConnectionNode": 3,
+          "destinationNodeID": 7
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "position": {
+        "x": 1112.7317073170739,
+        "y": 127.93495934959351
+      },
+      "type": 1,
+      "topText": "give_apple",
+      "bottomText": "",
+      "outgoingConnections": [
+        {
+          "originConnectionNode": 1,
+          "destinationConnectionNode": 3,
+          "destinationNodeID": 9
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "position": {
+        "x": 1423.7073170731692,
+        "y": 252.93495934959358
+      },
+      "type": 1,
+      "topText": "end",
+      "bottomText": "",
+      "outgoingConnections": []
+    },
+    {
+      "id": 9,
+      "position": {
+        "x": 1247.8943089430904,
+        "y": 126.91869918699177
+      },
+      "type": 0,
+      "topText": "Abbi",
+      "bottomText": "Thanks!",
+      "outgoingConnections": [
+        {
+          "originConnectionNode": 1,
+          "destinationConnectionNode": 3,
+          "destinationNodeID": 7
+        }
+      ]
+    }
+  ]
+}

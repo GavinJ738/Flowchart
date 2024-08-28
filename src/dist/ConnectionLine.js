@@ -17,8 +17,11 @@ class ConnectionLine {
         this.lineSVG = parent.path(pathData).addClass("connectionLine").fill('none').stroke({ width: 2, color: 'black' });
     }
     destroy() {
+        var _a, _b;
         this.lineSVG.remove();
-        console.log("Destoy");
+        this.arrowShape.remove();
+        (_a = this.originConnectionNode) === null || _a === void 0 ? void 0 : _a.removeLine(this);
+        (_b = this.toConnectionNode) === null || _b === void 0 ? void 0 : _b.removeLine(this);
     }
     updatePositions() {
         var _a, _b;
@@ -27,12 +30,20 @@ class ConnectionLine {
         //console.log([[this.toConnectionNode?.circle.cx, this.toConnectionNode?.circle.cy], [toPosition.cx, toPosition.cy]])
         var pos = [bbox.x + bbox.width / 2, bbox.y + bbox.height / 2, toPosition.cx, toPosition.cy];
         if (this.dir == Direction.Up || this.dir == Direction.Down) {
+            if (this.dir == Direction.Down) {
+                pos[3] -= 20;
+            }
+            else {
+                pos[3] += 20;
+            }
             this.lineSVG.plot(this.genPathVert(pos[0], pos[1], pos[2], pos[3]));
         }
         else if (this.dir == Direction.Left) {
+            pos[2] += 20;
             this.lineSVG.plot(this.genPathHoriz(pos[2], pos[3], pos[0], pos[1]));
         }
         else {
+            pos[2] -= 20;
             this.lineSVG.plot(this.genPathHoriz(pos[0], pos[1], pos[2], pos[3]));
         }
         //this.lineSVG.plot([[this.lineSVG.x1, this.lineSVG.y1], [toPosition.cx, toPosition.cy]])

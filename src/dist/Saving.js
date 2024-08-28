@@ -12,6 +12,7 @@ class Saving {
                 };
                 canvas.SpawnNode(position, node["type"]);
                 canvas.rectNodes[canvas.rectNodes.length - 1].setText(node["topText"], node["bottomText"]);
+                canvas.rectNodes[canvas.rectNodes.length - 1].SetID(node["id"]);
             });
             //Then connect them
             for (var i = 0; i < canvas.rectNodes.length; i++) {
@@ -21,8 +22,8 @@ class Saving {
                 nodeData["outgoingConnections"].forEach((connection) => {
                     node.connectionNodes[connection["originConnectionNode"]].spawnConnectionLine();
                     if (ConnectionNode.activeConnectionNode.connectionLine) {
-                        const destinationConnectionNode = canvas.rectNodes[connection["destinationNodeID"]].connectionNodes[connection["destinationConnectionNode"]];
-                        ConnectionNode.activeConnectionNode.connectionLine.toConnectionNode = canvas.rectNodes[connection["destinationNodeID"]].connectionNodes[connection["destinationConnectionNode"]];
+                        const destinationConnectionNode = canvas.rectNodes.filter(n => n.id == connection["destinationNodeID"])[0].connectionNodes[connection["destinationConnectionNode"]];
+                        ConnectionNode.activeConnectionNode.connectionLine.toConnectionNode = canvas.rectNodes.filter(n => n.id == connection["destinationNodeID"])[0].connectionNodes[connection["destinationConnectionNode"]];
                         destinationConnectionNode.towardConnectionLines.push(ConnectionNode.activeConnectionNode.connectionLine);
                         ConnectionNode.activeConnectionNode.originConnectionLines.push(ConnectionNode.activeConnectionNode.connectionLine);
                         destinationConnectionNode.createArrow();

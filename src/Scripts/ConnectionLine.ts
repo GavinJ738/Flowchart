@@ -10,6 +10,7 @@ class ConnectionLine {
     originConnectionNode: ConnectionNode | null = null
     toConnectionNode: ConnectionNode | null = null
     dir: Direction = Direction.Up
+    arrowShape: any
 
     constructor(parent: any, direction: Direction) {
 
@@ -22,7 +23,10 @@ class ConnectionLine {
 
     public destroy() {
         this.lineSVG.remove();
-        console.log("Destoy");
+        this.arrowShape.remove();
+
+        this.originConnectionNode?.removeLine(this)
+        this.toConnectionNode?.removeLine(this)
     }
 
     public updatePositions() {
@@ -34,12 +38,18 @@ class ConnectionLine {
         var pos = [bbox.x + bbox.width / 2, bbox.y + bbox.height / 2, toPosition.cx, toPosition.cy]
 
         if (this.dir == Direction.Up || this.dir == Direction.Down) {
-
+            if (this.dir == Direction.Down) {
+                pos[3] -= 20;
+            } else {
+                pos[3] += 20;
+            }
             this.lineSVG.plot(this.genPathVert(pos[0], pos[1], pos[2], pos[3]));
         } else if (this.dir == Direction.Left) {
+            pos[2] += 20;
             this.lineSVG.plot(this.genPathHoriz(pos[2], pos[3], pos[0], pos[1]));
 
         } else {
+            pos[2] -= 20;
             this.lineSVG.plot(this.genPathHoriz(pos[0], pos[1], pos[2], pos[3]));
 
         }

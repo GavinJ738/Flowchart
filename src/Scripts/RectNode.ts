@@ -82,7 +82,9 @@ class RectNode {
 
 
     }
-
+    public SetID(newID: number) {
+        this.id = newID
+    }
     setUpDrag(rect: any, connectionNodes: ConnectionNode[], draw: any) {
         rect.draggable();
 
@@ -161,7 +163,7 @@ class RectNode {
 
         this.shape.svg(`
             <svg width="10" height="10" class="editButton">
-            <path xmlns="http://www.w3.org/2000/svg" d="M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z" transform="scale(0.019) translate(4000, 1100)"
+            <path xmlns="http://www.w3.org/2000/svg" d="M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z" transform="scale(0.019) translate(3100, 1100)"
             />
             <rect width="16" height="16" transform="translate(76, 4)"
             style="fill: transparent;"></rect>
@@ -182,6 +184,19 @@ class RectNode {
             editButtonSVG.children()[0].toggleClass("red")
         }, { passive: true });
 
+        this.shape.svg(`
+            <svg width="10" height="10" class="deleteButton">
+            <path xmlns="http://www.w3.org/2000/svg" d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z" transform="scale(0.019) translate(4000, 1100)"
+            />
+            <rect width="16" height="16" transform="translate(76, 4)"
+            style="fill: transparent;"></rect>
+            </svg>
+            `)
+        var deleteButtonSVG = this.shape.find('.deleteButton')[0]
+        console.log(deleteButtonSVG);
+        deleteButtonSVG.node.addEventListener("pointerdown", () => {
+            this.deleteNode();
+        }, { passive: true });
 
         this.disablePointerEvents();
     }
@@ -214,5 +229,10 @@ class RectNode {
             collection[i].classList.remove("disablePointerEvents")
         }
     }
-
+    deleteNode() {
+        this.shape.remove();
+        this.connectionNodes.forEach(node => {
+            node.delete()
+        });
+    }
 }

@@ -44,7 +44,8 @@ class ConnectionNode {
                     ConnectionNode.activeConnectionNode.connectionLine.toConnectionNode = this
                     this.towardConnectionLines.push(ConnectionNode.activeConnectionNode.connectionLine);
                     ConnectionNode.activeConnectionNode.originConnectionLines.push(ConnectionNode.activeConnectionNode.connectionLine)
-                    this.createArrow();
+                    ConnectionNode.activeConnectionNode.connectionLine.arrowShape = this.createArrow();
+                    console.log(ConnectionNode.activeConnectionNode.connectionLine.arrowShape);
                 }
                 //this.towardConnectionLine = ConnectionNode.activeConnectionNode.connectionLine
             }
@@ -86,8 +87,9 @@ class ConnectionNode {
         this.originConnectionLines.forEach(line => {
             line.updatePositions();
         });
+
         if (this.connectionLine) {
-            this.connectionLine.updatePositions();
+            //this.connectionLine.updatePositions();
             //this.connectionLine.lineSVG.plot([this.connectionLine.lineSVG.array()[0], [0, 0]]);
         }
     }
@@ -109,11 +111,27 @@ class ConnectionNode {
                 break;
         }
 
-        this.parent.shape.svg(`<svg class="arrow" x="${this.xpos}" y="${this.ypos}" viewBox="0 0 500 500" >
+        this.parent.shape.svg(`<svg class="arrow arrowSVG" x="${this.xpos}" y="${this.ypos}" viewBox="0 0 500 500" >
             	<polygon class="arrow" points="-50,50 50,50 0,-50" fill="black" stroke="black" stroke-width="2" style="
-    transform: rotate(${rotation}deg);
+    transform: rotate(${rotation}deg) translate(0px, 50px);
 "></polygon>
-        </svg>`)
+        </svg>`);
+        var elems = this.parent.shape.node.getElementsByClassName("arrowSVG");
+        return elems[elems.length - 1];
 
+    }
+
+    public delete() {
+        this.towardConnectionLines.forEach(line => {
+            line.destroy();
+        });
+        this.originConnectionLines.forEach(line => {
+            line.destroy();
+        });
+    }
+
+    public removeLine(line: ConnectionLine) {
+        this.towardConnectionLines.splice(this.towardConnectionLines.indexOf(line), 1)
+        this.originConnectionLines.splice(this.originConnectionLines.indexOf(line), 1)
     }
 }
