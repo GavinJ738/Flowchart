@@ -62,22 +62,38 @@ class CanvasManager {
             }
         });
         var zoom = 1000;
-        var zoomSpeed = 50;
+        var zoomSpeed = 1.05;
         document.addEventListener('wheel', (event) => {
+            event.preventDefault();
             const deltaY = event.deltaY;
             const directionY = deltaY > 0 ? 'down' : deltaY < 0 ? 'up' : 'none';
-            if (deltaY > 0) {
-                zoom += zoomSpeed;
+            // Get the current mouse position
+            const mouseX = event.clientX;
+            const mouseY = event.clientY;
+            // Convert mouse position to SVG coordinates
+            const point = this.draw.point(mouseX, mouseY);
+            var zoomChange = zoomSpeed;
+            // Calculate the new zoom level
+            if (deltaY < 0) {
+                zoomChange = 1 / zoomSpeed;
             }
-            else if (deltaY < 0) {
-                zoom -= zoomSpeed;
-            }
+            // Ensure zoom doesn't go below a minimum value
+            //zoom = Math.max(0, zoom);
+            console.log((zoom / (zoom - zoomSpeed)));
+            // Calculate the new viewbox position
+            const viewbox = this.draw.viewbox();
+            const newWidth = viewbox.width * zoomChange;
+            const newHeight = viewbox.height * zoomChange;
+            const dx = (viewbox.x - point.x) * (newWidth - viewbox.width) / viewbox.width;
+            const dy = (viewbox.y - point.y) * (newHeight - viewbox.height) / viewbox.height;
+            // Set the new viewbox with the mouse as the anchor point
             this.draw.viewbox({
-                x: this.draw.viewbox().x,
-                y: this.draw.viewbox().y,
-                width: zoom,
-                height: zoom
+                x: viewbox.x + dx,
+                y: viewbox.y + dy,
+                width: newWidth,
+                height: newHeight
             });
+            this.ResizeRect();
         });
     }
     CanvasElemInit() {
@@ -131,6 +147,8 @@ class CanvasManager {
         //const bbox = svgElement.getBoundingClientRect();
         //const width = bbox.width;
         //const height = bbox.height;
-        this.grid.size("100%", "100%").move(0, 0);
+        var vb = this.draw.viewbox();
+        this.draw.viewbox(vb);
+        this.grid.size("100%", "100%").move(vb.x, vb.y);
     }
 }
