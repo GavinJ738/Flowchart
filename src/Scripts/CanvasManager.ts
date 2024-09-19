@@ -76,7 +76,6 @@ class CanvasManager {
         var zoom: number = 1000
         var zoomSpeed: number = 1.05
         document.addEventListener('wheel', (event: WheelEvent) => {
-            event.preventDefault();
 
             const deltaY = event.deltaY;
             const directionY = deltaY > 0 ? 'down' : deltaY < 0 ? 'up' : 'none';

@@ -64,7 +64,6 @@ class CanvasManager {
         var zoom = 1000;
         var zoomSpeed = 1.05;
         document.addEventListener('wheel', (event) => {
-            event.preventDefault();
             const deltaY = event.deltaY;
             const directionY = deltaY > 0 ? 'down' : deltaY < 0 ? 'up' : 'none';
             // Get the current mouse position

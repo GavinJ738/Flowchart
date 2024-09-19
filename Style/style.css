@@ -117,3 +117,50 @@ textarea::-webkit-scrollbar-thumb {
     background-color: darkgrey;
     outline: 1px solid slategrey;
 }
+
+.MenuButton {
+    backdrop-filter: blur(10px);
+    z-index: 1;
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
+    position: absolute;
+    right: 0;
+    top: 0;
+    margin: 10px;
+    width: 3em;
+    height: 3em;
+    border-radius: 0.5em;
+
+    transition: background-color 0.1s;
+}
+
+.MenuButton>span {
+    font-size: xxx-large;
+    user-select: none;
+}
+
+.MenuButton:hover {
+    background-color: rgba(0, 0, 0, 0.089);
+}
+
+.MenuButton:active {
+    background-color: rgba(0, 0, 0, 0.267);
+}
+
+.MenuContainer {
+    backdrop-filter: blur(10px);
+    z-index: 1;
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
+    border-radius: 0.5em;
+    position: absolute;
+    right: -25em;
+    top: 10vh;
+    transition: right 1s;
+    transition-timing-function: cubic-bezier(0.33, 0.58, 0.32, 1.28);
+
+    align-items: center;
+    /* Center vertically */
+    height: 80vh;
+    width: 20em;
+    /* Full viewport height */
+    margin-right: 2em;
+}
