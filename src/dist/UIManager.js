@@ -11,4 +11,13 @@ document.addEventListener('DOMContentLoaded', function () {
             menuContainer.style.right = "0em";
         }
     });
+    //Hooking up save/load buttons
+    const saveButton = document.getElementById("SaveButton");
+    const loadButton = document.getElementById("LoadButton");
+    saveButton === null || saveButton === void 0 ? void 0 : saveButton.addEventListener('mousedown', function () {
+        Saving.save();
+    });
+    loadButton === null || loadButton === void 0 ? void 0 : loadButton.addEventListener('mousedown', function () {
+        Saving.load(CanvasManager.instance);
+    });
 });

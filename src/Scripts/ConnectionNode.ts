@@ -46,6 +46,7 @@ class ConnectionNode {
                     ConnectionNode.activeConnectionNode.originConnectionLines.push(ConnectionNode.activeConnectionNode.connectionLine)
                     ConnectionNode.activeConnectionNode.connectionLine.arrowShape = this.createArrow();
                     console.log(ConnectionNode.activeConnectionNode.connectionLine.arrowShape);
+                    ConnectionNode.activeConnectionNode.connectionLine.updatePositions();
                 }
                 //this.towardConnectionLine = ConnectionNode.activeConnectionNode.connectionLine
             }
@@ -123,6 +124,7 @@ class ConnectionNode {
 
     public delete() {
         this.towardConnectionLines.forEach(line => {
+
             line.destroy();
         });
         this.originConnectionLines.forEach(line => {

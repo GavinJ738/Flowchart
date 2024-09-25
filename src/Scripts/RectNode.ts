@@ -74,7 +74,7 @@ class RectNode {
         if (rectParams.type == NodeType.Start) {
             rect.click(() => {
                 console.log("Clicked");
-                Saving.save(this)
+                //Saving.save(this)
             });
         }
 

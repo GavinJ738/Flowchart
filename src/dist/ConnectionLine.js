@@ -15,11 +15,19 @@ class ConnectionLine {
         this.dir = direction;
         const pathData = this.genPathHoriz(0, 0, 0, 0);
         this.lineSVG = parent.path(pathData).addClass("connectionLine").fill('none').stroke({ width: 2, color: 'black' });
+        this.lineSVG.click(() => {
+            console.log("Line clicked");
+            this.destroy();
+        });
     }
     destroy() {
         var _a, _b;
-        this.lineSVG.remove();
-        this.arrowShape.remove();
+        if (this.lineSVG) {
+            this.lineSVG.remove();
+        }
+        if (this.arrowShape) {
+            this.arrowShape.remove();
+        }
         (_a = this.originConnectionNode) === null || _a === void 0 ? void 0 : _a.removeLine(this);
         (_b = this.toConnectionNode) === null || _b === void 0 ? void 0 : _b.removeLine(this);
     }

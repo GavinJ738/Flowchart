@@ -10,4 +10,16 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
     })
+
+
+    //Hooking up save/load buttons
+    const saveButton = document.getElementById("SaveButton");
+    const loadButton = document.getElementById("LoadButton");
+
+    saveButton?.addEventListener('mousedown', function () {
+        Saving.save();
+    })
+    loadButton?.addEventListener('mousedown', function () {
+        Saving.load(CanvasManager.instance)
+    })
 })

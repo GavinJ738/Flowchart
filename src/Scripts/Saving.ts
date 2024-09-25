@@ -3,6 +3,8 @@ class Saving {
     static load(canvas: CanvasManager) {
         window.electronAPI.loadJson();
         window.electronAPI.onLoadJsonReply((data) => {
+
+            canvas.reset();
             data["nodeData"].forEach((node: any) => {
 
                 //First create all nodes
@@ -13,7 +15,6 @@ class Saving {
                 canvas.SpawnNode(position, node["type"]);
                 canvas.rectNodes[canvas.rectNodes.length - 1].setText(node["topText"], node["bottomText"]);
                 canvas.rectNodes[canvas.rectNodes.length - 1].SetID(node["id"]);
-
             });
             //Then connect them
             for (var i = 0; i < canvas.rectNodes.length; i++) {
@@ -41,10 +42,81 @@ class Saving {
 
         });
     }
-    static save(startNode: RectNode) {
+    static export(startNode: RectNode) {
         this.getNodeTree(startNode);
     }
 
+    static save() {
+        const allNodes = CanvasManager.instance.rectNodes;
+
+        var allJsonNodeData: any[] = []
+        allNodes.forEach(node => {
+            if (node == null) {
+                //console.log("null")
+                return;
+            }
+
+            //Data saving
+            var pos = { x: node.shape.x(), y: node.shape.y() };
+            var type: NodeType = node.type;
+            var topText: String = node.shape.find(".topText")[0].node.value;
+            var bottomText: String = node.shape.find(".bottomText")[0].node.value;
+            var outgoingConnections: ConnectionLineSaveData[] = [];
+
+
+
+            console.log(topText);
+            //Add to json
+            console.log(`ID: ${node.id}`);
+
+            node.connectionNodes.forEach(connectionNode => {
+                //console.log(connectionNode)
+                connectionNode.originConnectionLines.forEach(connectionLine => {
+
+                    //console.log(connectionLine)
+                    if (connectionLine.toConnectionNode?.parent != undefined) {
+                        outgoingConnections.push({
+                            originConnectionNode: connectionNode.side,
+                            destinationConnectionNode: connectionLine.toConnectionNode.side,
+                            destinationNodeID: connectionLine.toConnectionNode.parent.id,
+                        })
+                        //console.log(`Added: ${connectionLine.toConnectionNode?.parent.id}`);
+                    } else {
+                        //console.log("Undefined");
+                    }
+                });
+            });
+
+
+            var json = {
+                "id": node.id,
+                "position": pos,
+                "type": type,
+                "topText": topText,
+                "bottomText": bottomText,
+                "outgoingConnections": outgoingConnections
+            }
+            allJsonNodeData.push(json);
+        });
+
+        //All done looping though all nodes
+        var jsonData = {
+            "nodeData": allJsonNodeData
+        }
+        console.log(JSON.stringify(jsonData, null, 2));
+        window.electronAPI.saveJson(jsonData);
+        window.electronAPI.onSaveJsonReply((status) => {
+            if (status === 'success') {
+                console.log('JSON file saved successfully!');
+            } else {
+                console.error('Failed to save JSON file.');
+            }
+        });
+
+    }
+
+
+    //Just for exporting
     static getNodeTree(startNode: RectNode) {
         var visitedNodeIDs: number[] = []
         var queue: RectNode[] = [startNode]

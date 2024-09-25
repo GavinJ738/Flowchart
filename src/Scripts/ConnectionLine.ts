@@ -18,12 +18,19 @@ class ConnectionLine {
 
         const pathData = this.genPathHoriz(0, 0, 0, 0);
         this.lineSVG = parent.path(pathData).addClass("connectionLine").fill('none').stroke({ width: 2, color: 'black' });
-
+        this.lineSVG.click(() => {
+            console.log("Line clicked");
+            this.destroy();
+        })
     }
 
     public destroy() {
-        this.lineSVG.remove();
-        this.arrowShape.remove();
+        if (this.lineSVG) {
+            this.lineSVG.remove();
+        }
+        if (this.arrowShape) {
+            this.arrowShape.remove();
+        }
 
         this.originConnectionNode?.removeLine(this)
         this.toConnectionNode?.removeLine(this)

@@ -14,6 +14,7 @@ class CanvasManager {
         this.ResizeRect();
     }
     CanvasMovementInit() {
+        CanvasManager.instance = this;
         let isPanning = false;
         let spaceDown = false;
         let startPoint = { x: 0, y: 0 };
@@ -107,11 +108,6 @@ class CanvasManager {
             add.rect(50, 50).fill('none').stroke({ color: 'gray', width: 0.5 });
         });
         this.grid = this.draw.rect("100%", "100%").fill(pattern).move(0, 0);
-        document.addEventListener('keydown', (e) => {
-            if (e.code == "KeyL") {
-                Saving.load(this);
-            }
-        });
     }
     //Adds a node to the canvas
     AddNode(mousePos, id) {
@@ -124,7 +120,9 @@ class CanvasManager {
                 this.rectNodes.push(new RectNode(pos.x - 50, pos.y - 50, { fill: '#ed1a36', type: NodeType.Event }, this.draw));
                 break;
             case "blueRect":
-                this.rectNodes.push(new RectNode(pos.x - 50, pos.y - 50, { fill: '#561aed', type: NodeType.Start }, this.draw));
+                var createdNode = new RectNode(pos.x - 50, pos.y - 50, { fill: '#561aed', type: NodeType.Start }, this.draw);
+                CanvasManager.startNode = createdNode;
+                this.rectNodes.push(createdNode);
                 break;
         }
     }
@@ -137,7 +135,9 @@ class CanvasManager {
                 this.rectNodes.push(new RectNode(pos.x - 50, pos.y - 50, { fill: '#ed1a36', type: NodeType.Event }, this.draw));
                 break;
             case NodeType.Start:
-                this.rectNodes.push(new RectNode(pos.x - 50, pos.y - 50, { fill: '#561aed', type: NodeType.Start }, this.draw));
+                var createdNode = new RectNode(pos.x - 50, pos.y - 50, { fill: '#561aed', type: NodeType.Start }, this.draw);
+                CanvasManager.startNode = createdNode;
+                this.rectNodes.push(createdNode);
                 break;
         }
     }
@@ -149,5 +149,14 @@ class CanvasManager {
         var vb = this.draw.viewbox();
         this.draw.viewbox(vb);
         this.grid.size("100%", "100%").move(vb.x, vb.y);
+    }
+    reset() {
+        RectNode.idInc = 0;
+        this.rectNodes.forEach(node => {
+            if (node) {
+                node.deleteNode();
+            }
+        });
+        this.rectNodes = [];
     }
 }
