@@ -107,15 +107,21 @@ class ConnectionNode {
         return elems[elems.length - 1];
     }
     delete() {
+        console.log(this.towardConnectionLines);
         this.towardConnectionLines.forEach(line => {
-            line.destroy();
+            console.log(line);
         });
+        while (this.towardConnectionLines.length > 0) {
+            console.log("Deleted toward connection line");
+            this.towardConnectionLines[0].destroy();
+        }
+        console.log("-------");
         this.originConnectionLines.forEach(line => {
             line.destroy();
         });
     }
     removeLine(line) {
-        this.towardConnectionLines.splice(this.towardConnectionLines.indexOf(line), 1);
+        console.log(this.towardConnectionLines.splice(this.towardConnectionLines.indexOf(line), 1));
         this.originConnectionLines.splice(this.originConnectionLines.indexOf(line), 1);
     }
 }

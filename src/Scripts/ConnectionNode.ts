@@ -123,17 +123,23 @@ class ConnectionNode {
     }
 
     public delete() {
+        console.log(this.towardConnectionLines)
         this.towardConnectionLines.forEach(line => {
+            console.log(line)
+        })
+        while (this.towardConnectionLines.length > 0) {
+            console.log("Deleted toward connection line")
+            this.towardConnectionLines[0].destroy();
 
-            line.destroy();
-        });
+        }
+        console.log("-------")
         this.originConnectionLines.forEach(line => {
             line.destroy();
         });
     }
 
     public removeLine(line: ConnectionLine) {
-        this.towardConnectionLines.splice(this.towardConnectionLines.indexOf(line), 1)
+        console.log(this.towardConnectionLines.splice(this.towardConnectionLines.indexOf(line), 1))
         this.originConnectionLines.splice(this.originConnectionLines.indexOf(line), 1)
     }
 }

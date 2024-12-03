@@ -14,7 +14,6 @@ class Saving {
                 canvas.SpawnNode(position, node["type"]);
                 canvas.rectNodes[canvas.rectNodes.length - 1].setText(node["topText"], node["bottomText"]);
                 canvas.rectNodes[canvas.rectNodes.length - 1].SetID(node["id"]);
-                console.log("added node");
             });
             //Then connect them
             for (var i = 0; i < canvas.rectNodes.length; i++) {

@@ -1,0 +1,195 @@
+{
+  "nodeData": [
+    {
+      "id": 0,
+      "position": {
+        "x": 217.2764227642275,
+        "y": 294.5121951219514
+      },
+      "type": 2,
+      "topText": "Start",
+      "bottomText": "",
+      "outgoingConnections": [
+        {
+          "originConnectionNode": 1,
+          "destinationConnectionNode": 3,
+          "destinationNodeID": 1
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "position": {
+        "x": 343.2926829268293,
+        "y": 287.39837398374
+      },
+      "type": 0,
+      "topText": "Abbi",
+      "bottomText": "Hey, Jeff. I want to battle someone.",
+      "outgoingConnections": [
+        {
+          "originConnectionNode": 1,
+          "destinationConnectionNode": 3,
+          "destinationNodeID": 2
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "position": {
+        "x": 480.4878048780489,
+        "y": 287.39837398374
+      },
+      "type": 0,
+      "topText": "Jeff",
+      "bottomText": "Who do you want to fight?",
+      "outgoingConnections": [
+        {
+          "originConnectionNode": 1,
+          "destinationConnectionNode": 3,
+          "destinationNodeID": 3
+        },
+        {
+          "originConnectionNode": 1,
+          "destinationConnectionNode": 3,
+          "destinationNodeID": 4
+        },
+        {
+          "originConnectionNode": 1,
+          "destinationConnectionNode": 3,
+          "destinationNodeID": 5
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "position": {
+        "x": 687.0985510337466,
+        "y": 118.25494318281366
+      },
+      "type": 0,
+      "topText": "Abbi",
+      "bottomText": "Gigaman (hard)",
+      "outgoingConnections": [
+        {
+          "originConnectionNode": 1,
+          "destinationConnectionNode": 3,
+          "destinationNodeID": 6
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "position": {
+        "x": 686.667914679677,
+        "y": 286.3849212096766
+      },
+      "type": 0,
+      "topText": "Abbi",
+      "bottomText": "Billy (medium)",
+      "outgoingConnections": [
+        {
+          "originConnectionNode": 1,
+          "destinationConnectionNode": 3,
+          "destinationNodeID": 7
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "position": {
+        "x": 689.3015657750573,
+        "y": 424.21266793041696
+      },
+      "type": 0,
+      "topText": "Abbi",
+      "bottomText": "Littleman (easy)",
+      "outgoingConnections": [
+        {
+          "originConnectionNode": 1,
+          "destinationConnectionNode": 3,
+          "destinationNodeID": 8
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "position": {
+        "x": 919.9469388636151,
+        "y": 75.11231082823218
+      },
+      "type": 1,
+      "topText": "hard_fight",
+      "bottomText": "",
+      "outgoingConnections": [
+        {
+          "originConnectionNode": 1,
+          "destinationConnectionNode": 3,
+          "destinationNodeID": 11
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "position": {
+        "x": 925.5490730099563,
+        "y": 235.333347413598
+      },
+      "type": 1,
+      "topText": "medium_fight",
+      "bottomText": "",
+      "outgoingConnections": [
+        {
+          "originConnectionNode": 1,
+          "destinationConnectionNode": 3,
+          "destinationNodeID": 11
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "position": {
+        "x": 917.7060852050776,
+        "y": 423.56505473067125
+      },
+      "type": 1,
+      "topText": "easy_fight",
+      "bottomText": "",
+      "outgoingConnections": [
+        {
+          "originConnectionNode": 1,
+          "destinationConnectionNode": 3,
+          "destinationNodeID": 11
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "position": {
+        "x": 1277.457586024835,
+        "y": 194.61643098040327
+      },
+      "type": 1,
+      "topText": "end",
+      "bottomText": "",
+      "outgoingConnections": []
+    },
+    {
+      "id": 11,
+      "position": {
+        "x": 1107.4968816443975,
+        "y": 224.39591335885893
+      },
+      "type": 0,
+      "topText": "Jeff",
+      "bottomText": "Good Job!",
+      "outgoingConnections": [
+        {
+          "originConnectionNode": 1,
+          "destinationConnectionNode": 3,
+          "destinationNodeID": 10
+        }
+      ]
+    }
+  ]
+}
