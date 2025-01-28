@@ -56,7 +56,6 @@ path.connectionLine {
     text-align: center;
     line-height: 100px;
     cursor: grab;
-    margin-top: 2em;
 }
 
 .draggable-copy {
@@ -177,4 +176,25 @@ textarea::-webkit-scrollbar-thumb {
     padding: 0.5em;
     font-size: xxx-large;
     margin: 1em;
+}
+
+.draggableLabel {
+    margin: 0.5em 0;
+    line-height: normal;
+}
+
+.draggableContainer {
+    margin-top: 2em;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    background-color: #f7f7f7;
+    padding: 10px;
+    border-radius: 10px;
+
+    transition: background-color 0.1s;
+}
+
+.draggableContainer:hover {
+    background-color: #dfdfdf;
 }

@@ -43,9 +43,10 @@ class CanvasManager {
             if (!isPanning) return;
             const dx = startPoint.x - e.clientX;
             const dy = startPoint.y - e.clientY;
+            const zoomScaling = startViewBox.width / 1000.0;
             const newViewBox = {
-                x: startViewBox.x + dx,
-                y: startViewBox.y + dy,
+                x: startViewBox.x + dx * zoomScaling,
+                y: startViewBox.y + dy * zoomScaling,
                 width: startViewBox.width,
                 height: startViewBox.height
             };

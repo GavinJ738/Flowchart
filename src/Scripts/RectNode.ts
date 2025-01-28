@@ -160,7 +160,7 @@ class RectNode {
         ><textarea class="bottomText" style="
             height: 100%;
             width: 100%;
-            overflow: hidden;
+            overflow: visible;
         " type="text"></textarea>
         </foreignObject>`)
         var bottomText = this.shape.find('.bottomText')[0].node
