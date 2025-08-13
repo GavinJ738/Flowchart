@@ -6,6 +6,8 @@ document.addEventListener("DOMContentLoaded", function () {
 class CanvasManager {
     constructor() {
         this.rectNodes = [];
+        this.clickAwayListener = null;
+        this.clickAwayListenerRecieved = false;
         console.log("Test");
         this.draw = SVG().addTo('body').size('100%', '100%').id('mainCanvas');
         this.CanvasElemInit();
@@ -48,6 +50,14 @@ class CanvasManager {
         });
         this.draw.on('mouseup', () => {
             isPanning = false;
+            //For clicking away from text input
+            if (this.clickAwayListener != null) {
+                if (!this.clickAwayListenerRecieved) {
+                    this.clickAwayListener.unfocus();
+                    this.clickAwayListener = null;
+                }
+            }
+            this.clickAwayListenerRecieved = false;
         });
         this.draw.on('mouseleave', () => {
             isPanning = false;

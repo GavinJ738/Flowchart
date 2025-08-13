@@ -6,6 +6,9 @@ rect {
     overflow: visible;
 }
 
+p {
+    user-select: none;
+}
 
 #mainCanvas {
     width: 100%;

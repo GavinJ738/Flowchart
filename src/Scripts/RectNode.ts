@@ -35,6 +35,9 @@ class RectNode {
     writingEnabled: boolean = false
     connectionNodes: ConnectionNode[] = []
 
+    nodeBackgroundRect: any = null
+    dragNode: any = null
+
     constructor(x: number, y: number, rectParams: RectParams, draw: any) {
         this.id = RectNode.idInc++;
         this.box = new SVG.Box();
@@ -54,8 +57,8 @@ class RectNode {
 
         this.shape = draw.nested();
         this.shape.size(100, 100);
-        var rect = this.shape.rect(this.width, this.height);
-        rect.attr({
+        this.nodeBackgroundRect = this.shape.rect(this.width, this.height);
+        this.nodeBackgroundRect.attr({
             x: '0',
             y: '0',
             fill: rectParams.fill,
@@ -64,15 +67,11 @@ class RectNode {
             width: "100%",
             height: "100%"
         })
-        this.connectionNodes.push(new ConnectionNode(this, "50%", "0%", Direction.Up));
-        this.connectionNodes.push(new ConnectionNode(this, "100%", "50%", Direction.Right));
-        this.connectionNodes.push(new ConnectionNode(this, "50%", "100%", Direction.Down));
-        this.connectionNodes.push(new ConnectionNode(this, "0%", "50%", Direction.Left));
         this.shape.move(x, y);
-        this.setUpDrag(rect, this.connectionNodes, draw);
+        this.setUpDrag(this.nodeBackgroundRect, this.connectionNodes, draw);
         this.type = rectParams.type;
         if (rectParams.type == NodeType.Start) {
-            rect.click(() => {
+            this.nodeBackgroundRect.click(() => {
                 console.log("Clicked");
                 //Saving.save(this)
             });
@@ -80,17 +79,37 @@ class RectNode {
 
         this.addBoxOverlay()
 
+        this.shape.node.addEventListener("mouseup", () => {
+            if (CanvasManager.instance.clickAwayListener == this) {
+                CanvasManager.instance.clickAwayListenerRecieved = true
+            }
+        })
 
 
+        this.connectionNodes.push(new ConnectionNode(this, "50%", "0%", Direction.Up));
+        this.connectionNodes.push(new ConnectionNode(this, "100%", "50%", Direction.Right));
+        this.connectionNodes.push(new ConnectionNode(this, "50%", "100%", Direction.Down));
+        this.connectionNodes.push(new ConnectionNode(this, "0%", "50%", Direction.Left));
 
     }
     public SetID(newID: number) {
         this.id = newID
     }
     setUpDrag(rect: any, connectionNodes: ConnectionNode[], draw: any) {
-        rect.draggable();
 
-        rect.on('dragstart.namespace', (event: any) => {
+        this.dragNode = this.shape.rect(this.width, this.height);
+        this.dragNode.attr({
+            x: '0',
+            y: '0',
+            rx: `${this.width / 10}`,
+            width: "100%",
+            height: "100%",
+            opacity: "0"
+        })
+        this.dragNode.draggable();
+
+        this.dragNode.on('dragstart', (event: any) => {
+            console.log("Dragstart")
             this.box = new SVG.Box(this.shape.x(), this.shape.y(), this.width, this.height);
             this.lastClick = {
                 x: event.detail.event.pageX,
@@ -104,7 +123,7 @@ class RectNode {
             //this.offsetY = event.detail.handler.lastClick.y + box.y;
         })
 
-        rect.on('dragmove.namespace', (e: any) => {
+        this.dragNode.on('dragmove', (e: any) => {
             e.preventDefault()
 
             const currentClick = {
@@ -127,6 +146,21 @@ class RectNode {
             connectionNodes.forEach(connectionNode => {
                 connectionNode.updatePositions();
             });
+        })
+
+        this.dragNode.on("dblclick", (e: any) => {
+            var r = draw.node.createSVGRect()
+            r.x = e.clientX
+            r.y = e.clientY
+            r.width = r.height = 1
+            var list = draw.node.getIntersectionList(r, null);
+            for (var i = 0; i < list.length; i++) {
+                if (list[i] != e.target) {
+                    list[i].dispatchEvent(new CustomEvent("dblclick", e))
+                }
+            }
+            console.log(list)
+            console.log(e)
         })
     }
     //Adds the text areas, dividers, and buttons
@@ -165,7 +199,6 @@ class RectNode {
         </foreignObject>`)
         var bottomText = this.shape.find('.bottomText')[0].node
 
-        console.log(bottomText)
         this.shape.svg(`
             <svg width="10" height="10" class="editButton" x="100%">
             <path xmlns="http://www.w3.org/2000/svg" d="M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z" transform="scale(0.019) translate(-2300, 1200)"
@@ -174,6 +207,18 @@ class RectNode {
             style="fill: transparent; transform: translate(-42px, 6px);"></rect>
             </svg>
             `)
+        bottomText.parentElement.addEventListener("dblclick", (e: any) => {
+            this.enablePointerEvents();
+            CanvasManager.instance.clickAwayListener = this
+        })
+
+        var topText = this.shape.find('.topText')[0].node
+        topText.parentElement.addEventListener("dblclick", (e: any) => {
+            this.enablePointerEvents();
+            CanvasManager.instance.clickAwayListener = this
+        })
+
+        this.dragNode.front()
         var editButtonSVG = this.shape.find('.editButton')[0]
         editButtonSVG.node.addEventListener("pointerdown", () => {
             console.log("Clicked");
@@ -248,22 +293,46 @@ class RectNode {
     };
 
     disablePointerEvents() {
+        this.dragNode.show()
         const collection = document.getElementsByClassName("toggableObject");
         for (var i = 0; i < collection.length; i++) {
-            collection[i].classList.add("disablePointerEvents")
+            let firstChild: any = collection[i].firstChild
+            if (firstChild == null) {
+                continue
+            }
+            firstChild.classList.add("disablePointerEvents")
+            firstChild.blur()
         }
+
+        this.nodeBackgroundRect.attr({
+            stroke: '#000000ff',
+        })
     }
 
     enablePointerEvents() {
+        this.dragNode.hide()
         const collection = document.getElementsByClassName("toggableObject");
         for (var i = 0; i < collection.length; i++) {
-            collection[i].classList.remove("disablePointerEvents")
+            let firstChild: any = collection[i].firstChild
+            if (firstChild == null) {
+                continue
+            }
+            firstChild.classList.remove("disablePointerEvents")
         }
+
+        this.nodeBackgroundRect.attr({
+            stroke: '#8f0000ff',
+        })
     }
     deleteNode() {
         this.shape.remove();
         this.connectionNodes.forEach(node => {
             node.delete()
         });
+    }
+
+    // No longer being focused (so not editing text)
+    public unfocus() {
+        this.disablePointerEvents();
     }
 }
